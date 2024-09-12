@@ -142,15 +142,16 @@
       this[globalName] = mainExports;
     }
   }
-})({"aHFy6":[function(require,module,exports) {
+})({"fm8Gy":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
+var HMR_USE_SSE = false;
 module.bundle.HMR_BUNDLE_ID = "5c1b77e3b71e74eb";
 "use strict";
-/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
+/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
   HMRAsset,
   HMRMessage,
@@ -189,6 +190,7 @@ declare var HMR_HOST: string;
 declare var HMR_PORT: string;
 declare var HMR_ENV_HASH: string;
 declare var HMR_SECURE: boolean;
+declare var HMR_USE_SSE: boolean;
 declare var chrome: ExtensionContext;
 declare var browser: ExtensionContext;
 declare var __parcel__import__: (string) => Promise<void>;
@@ -232,7 +234,8 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
         "0.0.0.0"
     ].includes(hostname) ? "wss" : "ws";
     var ws;
-    try {
+    if (HMR_USE_SSE) ws = new EventSource("/__parcel_hmr");
+    else try {
         ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/");
     } catch (err) {
         if (err.message) console.error(err.message);
@@ -302,12 +305,14 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
             }
         }
     };
-    ws.onerror = function(e) {
-        if (e.message) console.error(e.message);
-    };
-    ws.onclose = function() {
-        console.warn("[parcel] \uD83D\uDEA8 Connection to the HMR server was lost");
-    };
+    if (ws instanceof WebSocket) {
+        ws.onerror = function(e) {
+            if (e.message) console.error(e.message);
+        };
+        ws.onclose = function() {
+            console.warn("[parcel] \uD83D\uDEA8 Connection to the HMR server was lost");
+        };
+    }
 }
 function removeErrorOverlay() {
     var overlay = document.getElementById(OVERLAY_ID);
@@ -1036,7 +1041,6 @@ class Roulette extends EventTarget {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "_", ()=>(0, _tslib.__decorate));
-parcelHelpers.export(exports, "_ts_decorate", ()=>(0, _tslib.__decorate));
 var _tslib = require("tslib");
 
 },{"tslib":"lRdW5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lRdW5":[function(require,module,exports) {
@@ -1053,13 +1057,17 @@ INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
 LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */ /* global Reflect, Promise */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+***************************************************************************** */ /* global Reflect, Promise, SuppressedError, Symbol, Iterator */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "__extends", ()=>__extends);
 parcelHelpers.export(exports, "__assign", ()=>__assign);
 parcelHelpers.export(exports, "__rest", ()=>__rest);
 parcelHelpers.export(exports, "__decorate", ()=>__decorate);
 parcelHelpers.export(exports, "__param", ()=>__param);
+parcelHelpers.export(exports, "__esDecorate", ()=>__esDecorate);
+parcelHelpers.export(exports, "__runInitializers", ()=>__runInitializers);
+parcelHelpers.export(exports, "__propKey", ()=>__propKey);
+parcelHelpers.export(exports, "__setFunctionName", ()=>__setFunctionName);
 parcelHelpers.export(exports, "__metadata", ()=>__metadata);
 parcelHelpers.export(exports, "__awaiter", ()=>__awaiter);
 parcelHelpers.export(exports, "__generator", ()=>__generator);
@@ -1080,6 +1088,8 @@ parcelHelpers.export(exports, "__importDefault", ()=>__importDefault);
 parcelHelpers.export(exports, "__classPrivateFieldGet", ()=>__classPrivateFieldGet);
 parcelHelpers.export(exports, "__classPrivateFieldSet", ()=>__classPrivateFieldSet);
 parcelHelpers.export(exports, "__classPrivateFieldIn", ()=>__classPrivateFieldIn);
+parcelHelpers.export(exports, "__addDisposableResource", ()=>__addDisposableResource);
+parcelHelpers.export(exports, "__disposeResources", ()=>__disposeResources);
 var extendStatics = function(d, b) {
     extendStatics = Object.setPrototypeOf || ({
         __proto__: []
@@ -1127,6 +1137,56 @@ function __param(paramIndex, decorator) {
         decorator(target, key, paramIndex);
     };
 }
+function __esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+    function accept(f) {
+        if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected");
+        return f;
+    }
+    var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+    var _, done = false;
+    for(var i = decorators.length - 1; i >= 0; i--){
+        var context = {};
+        for(var p in contextIn)context[p] = p === "access" ? {} : contextIn[p];
+        for(var p in contextIn.access)context.access[p] = contextIn.access[p];
+        context.addInitializer = function(f) {
+            if (done) throw new TypeError("Cannot add initializers after decoration has completed");
+            extraInitializers.push(accept(f || null));
+        };
+        var result = (0, decorators[i])(kind === "accessor" ? {
+            get: descriptor.get,
+            set: descriptor.set
+        } : descriptor[key], context);
+        if (kind === "accessor") {
+            if (result === void 0) continue;
+            if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+            if (_ = accept(result.get)) descriptor.get = _;
+            if (_ = accept(result.set)) descriptor.set = _;
+            if (_ = accept(result.init)) initializers.unshift(_);
+        } else if (_ = accept(result)) {
+            if (kind === "field") initializers.unshift(_);
+            else descriptor[key] = _;
+        }
+    }
+    if (target) Object.defineProperty(target, contextIn.name, descriptor);
+    done = true;
+}
+function __runInitializers(thisArg, initializers, value) {
+    var useValue = arguments.length > 2;
+    for(var i = 0; i < initializers.length; i++)value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+    return useValue ? value : void 0;
+}
+function __propKey(x) {
+    return typeof x === "symbol" ? x : "".concat(x);
+}
+function __setFunctionName(f, name, prefix) {
+    if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+    return Object.defineProperty(f, "name", {
+        configurable: true,
+        value: prefix ? "".concat(prefix, " ", name) : name
+    });
+}
 function __metadata(metadataKey, metadataValue) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
 }
@@ -1166,12 +1226,8 @@ function __generator(thisArg, body) {
         },
         trys: [],
         ops: []
-    }, f, y, t, g;
-    return g = {
-        next: verb(0),
-        "throw": verb(1),
-        "return": verb(2)
-    }, typeof Symbol === "function" && (g[Symbol.iterator] = function() {
+    }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() {
         return this;
     }), g;
     function verb(n) {
@@ -1184,7 +1240,7 @@ function __generator(thisArg, body) {
     }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while(_)try {
+        while(g && (g = 0, op[0] && (_ = 0)), _)try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [
                 op[0] & 2,
@@ -1326,20 +1382,28 @@ function __await(v) {
 function __asyncGenerator(thisArg, _arguments, generator) {
     if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
     var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
+    return i = Object.create((typeof AsyncIterator === "function" ? AsyncIterator : Object).prototype), verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function() {
         return this;
     }, i;
-    function verb(n) {
-        if (g[n]) i[n] = function(v) {
-            return new Promise(function(a, b) {
-                q.push([
-                    n,
-                    v,
-                    a,
-                    b
-                ]) > 1 || resume(n, v);
-            });
+    function awaitReturn(f) {
+        return function(v) {
+            return Promise.resolve(v).then(f, reject);
         };
+    }
+    function verb(n, f) {
+        if (g[n]) {
+            i[n] = function(v) {
+                return new Promise(function(a, b) {
+                    q.push([
+                        n,
+                        v,
+                        a,
+                        b
+                    ]) > 1 || resume(n, v);
+                });
+            };
+            if (f) i[n] = f(i[n]);
+        }
     }
     function resume(n, v) {
         try {
@@ -1372,7 +1436,7 @@ function __asyncDelegator(o) {
         i[n] = o[n] ? function(v) {
             return (p = !p) ? {
                 value: __await(o[n](v)),
-                done: n === "return"
+                done: false
             } : f ? f(v) : v;
         } : f;
     }
@@ -1443,6 +1507,94 @@ function __classPrivateFieldIn(state, receiver) {
     if (receiver === null || typeof receiver !== "object" && typeof receiver !== "function") throw new TypeError("Cannot use 'in' operator on non-object");
     return typeof state === "function" ? receiver === state : state.has(receiver);
 }
+function __addDisposableResource(env, value, async) {
+    if (value !== null && value !== void 0) {
+        if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+        var dispose, inner;
+        if (async) {
+            if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+            dispose = value[Symbol.asyncDispose];
+        }
+        if (dispose === void 0) {
+            if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+            dispose = value[Symbol.dispose];
+            if (async) inner = dispose;
+        }
+        if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+        if (inner) dispose = function() {
+            try {
+                inner.call(this);
+            } catch (e) {
+                return Promise.reject(e);
+            }
+        };
+        env.stack.push({
+            value: value,
+            dispose: dispose,
+            async: async
+        });
+    } else if (async) env.stack.push({
+        async: true
+    });
+    return value;
+}
+var _SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function(error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+function __disposeResources(env) {
+    function fail(e) {
+        env.error = env.hasError ? new _SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+        env.hasError = true;
+    }
+    var r, s = 0;
+    function next() {
+        while(r = env.stack.pop())try {
+            if (!r.async && s === 1) return s = 0, env.stack.push(r), Promise.resolve().then(next);
+            if (r.dispose) {
+                var result = r.dispose.call(r.value);
+                if (r.async) return s |= 2, Promise.resolve(result).then(next, function(e) {
+                    fail(e);
+                    return next();
+                });
+            } else s |= 1;
+        } catch (e) {
+            fail(e);
+        }
+        if (s === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
+        if (env.hasError) throw env.error;
+    }
+    return next();
+}
+exports.default = {
+    __extends: __extends,
+    __assign: __assign,
+    __rest: __rest,
+    __decorate: __decorate,
+    __param: __param,
+    __metadata: __metadata,
+    __awaiter: __awaiter,
+    __generator: __generator,
+    __createBinding: __createBinding,
+    __exportStar: __exportStar,
+    __values: __values,
+    __read: __read,
+    __spread: __spread,
+    __spreadArrays: __spreadArrays,
+    __spreadArray: __spreadArray,
+    __await: __await,
+    __asyncGenerator: __asyncGenerator,
+    __asyncDelegator: __asyncDelegator,
+    __asyncValues: __asyncValues,
+    __makeTemplateObject: __makeTemplateObject,
+    __importStar: __importStar,
+    __importDefault: __importDefault,
+    __classPrivateFieldGet: __classPrivateFieldGet,
+    __classPrivateFieldSet: __classPrivateFieldSet,
+    __classPrivateFieldIn: __classPrivateFieldIn,
+    __addDisposableResource: __addDisposableResource,
+    __disposeResources: __disposeResources
+};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1Yn0u":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -4139,6 +4291,6 @@ module.exports = Promise.all([
     })
 ]).then(()=>module.bundle.root("66hZa"));
 
-},{"4e7f073fd58cabc7":"61B45","e38246951101134b":"lgJ39"}]},["aHFy6","h7u1C"], "h7u1C", "parcelRequire5cc2")
+},{"4e7f073fd58cabc7":"61B45","e38246951101134b":"lgJ39"}]},["fm8Gy","h7u1C"], "h7u1C", "parcelRequire5cc2")
 
 //# sourceMappingURL=index.b71e74eb.js.map

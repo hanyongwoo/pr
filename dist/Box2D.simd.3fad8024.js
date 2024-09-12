@@ -142,15 +142,16 @@
       this[globalName] = mainExports;
     }
   }
-})({"j8JCP":[function(require,module,exports) {
+})({"irDPm":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
+var HMR_USE_SSE = false;
 module.bundle.HMR_BUNDLE_ID = "3c0f79533fad8024";
 "use strict";
-/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
+/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
   HMRAsset,
   HMRMessage,
@@ -189,6 +190,7 @@ declare var HMR_HOST: string;
 declare var HMR_PORT: string;
 declare var HMR_ENV_HASH: string;
 declare var HMR_SECURE: boolean;
+declare var HMR_USE_SSE: boolean;
 declare var chrome: ExtensionContext;
 declare var browser: ExtensionContext;
 declare var __parcel__import__: (string) => Promise<void>;
@@ -232,7 +234,8 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
         "0.0.0.0"
     ].includes(hostname) ? "wss" : "ws";
     var ws;
-    try {
+    if (HMR_USE_SSE) ws = new EventSource("/__parcel_hmr");
+    else try {
         ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/");
     } catch (err) {
         if (err.message) console.error(err.message);
@@ -302,12 +305,14 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
             }
         }
     };
-    ws.onerror = function(e) {
-        if (e.message) console.error(e.message);
-    };
-    ws.onclose = function() {
-        console.warn("[parcel] \uD83D\uDEA8 Connection to the HMR server was lost");
-    };
+    if (ws instanceof WebSocket) {
+        ws.onerror = function(e) {
+            if (e.message) console.error(e.message);
+        };
+        ws.onclose = function() {
+            console.warn("[parcel] \uD83D\uDEA8 Connection to the HMR server was lost");
+        };
+    }
 }
 function removeErrorOverlay() {
     var overlay = document.getElementById(OVERLAY_ID);
@@ -9486,6 +9491,6 @@ exports.default = Box2D;
 },{"c816184f70aea6a7":"d5jf4","8ae2bffd29666746":"loE3o","5a6be442a7e4ca1f":"jhUEF","225a2dd62e292c4c":"gZ0DR","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gZ0DR":[function(require,module,exports) {
 module.exports = require("1a9e2f6e4d072c2a").getBundleURL("59Hq6") + "Box2D.simd.2b7312ef.wasm" + "?" + Date.now();
 
-},{"1a9e2f6e4d072c2a":"lgJ39"}]},["j8JCP"], null, "parcelRequire5cc2")
+},{"1a9e2f6e4d072c2a":"lgJ39"}]},["irDPm"], null, "parcelRequire5cc2")
 
 //# sourceMappingURL=Box2D.simd.3fad8024.js.map

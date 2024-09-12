@@ -97,215 +97,204 @@ div.copyright a {
   position: fixed;
   bottom: 1rem;
   left: 1rem;
-}
 
-#settings.hide {
-  opacity: 0;
-  visibility: hidden;
-}
+  &.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
 
-#settings h3 {
-  color: #fefefe;
-  margin: 0;
-  padding: 0;
-  font-size: 12pt;
-}
+  & h3 {
+    color: #fefefe;
+    margin: 0;
+    padding: 0;
+    font-size: 12pt;
+  }
 
-#settings textarea {
-  background: #999;
-  border: none;
-  width: 100%;
-  min-height: 5rem;
-  font-size: 14pt;
-}
+  & textarea {
+    background: #999;
+    border: none;
+    width: 100%;
+    min-height: 5rem;
+    font-size: 14pt;
+  }
 
-#settings button {
-  color: #fefefe;
-  background: #222;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  position: relative;
-  overflow: hidden;
-}
+  & button {
+    color: #fefefe;
+    background: #222;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: relative;
+    overflow: hidden;
 
-#settings button:active:after {
-  content: "";
-  background: #00000080;
-  position: absolute;
-  inset: 0;
-}
+    &:active:after {
+      content: "";
+      background: #00000080;
+      position: absolute;
+      inset: 0;
+    }
+  }
 
-#settings .icon {
-  vertical-align: middle;
-  background: currentColor;
-  width: 25px;
-  height: 25px;
-  display: inline-block;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-}
+  & .icon {
+    vertical-align: middle;
+    background: currentColor;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
 
-#settings .icon.play {
-  -webkit-mask-image: url("play.5e380e85.svg");
-  mask-image: url("play.5e380e85.svg");
-}
+    &.play {
+      mask-image: url("play.5e380e85.svg");
+    }
 
-#settings .icon.shuffle {
-  -webkit-mask-image: url("shuffle.ae708aec.svg");
-  mask-image: url("shuffle.ae708aec.svg");
-}
+    &.shuffle {
+      mask-image: url("shuffle.ae708aec.svg");
+    }
 
-#settings .icon.record {
-  -webkit-mask-image: url("record.4adf1f81.svg");
-  mask-image: url("record.4adf1f81.svg");
-}
+    &.record {
+      mask-image: url("record.4adf1f81.svg");
+    }
 
-#settings .icon.map {
-  -webkit-mask-image: url("map.9561646e.svg");
-  mask-image: url("map.9561646e.svg");
-}
+    &.map {
+      mask-image: url("map.9561646e.svg");
+    }
 
-#settings .icon.trophy {
-  -webkit-mask-image: url("trophy.861e3950.svg");
-  mask-image: url("trophy.861e3950.svg");
-}
+    &.trophy {
+      mask-image: url("trophy.861e3950.svg");
+    }
 
-#settings .icon.bomb {
-  -webkit-mask-image: url("bomb.5fe30a0c.svg");
-  mask-image: url("bomb.5fe30a0c.svg");
-}
+    &.bomb {
+      mask-image: url("bomb.5fe30a0c.svg");
+    }
+  }
 
-#settings div.left {
-  flex-grow: 1;
-  flex-shrink: 1;
-  order: 1;
-}
+  & div.left {
+    flex-grow: 1;
+    flex-shrink: 1;
+    order: 1;
 
-#settings div.left .actions {
-  text-align: right;
-}
+    & .actions {
+      text-align: right;
+    }
+  }
 
-#settings div.right {
-  flex-grow: 0;
-  flex-shrink: 0;
-  order: 2;
-}
+  & div.right {
+    flex-grow: 0;
+    flex-shrink: 0;
+    order: 2;
 
-#settings div.right div.row {
-  align-items: center;
-  height: 35px;
-  display: flex;
-}
+    & div.row {
+      align-items: center;
+      height: 35px;
+      display: flex;
 
-#settings div.right div.row label {
-  color: #fff;
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 150px;
-  padding-left: 1rem;
-}
+      & label {
+        color: #fff;
+        flex-grow: 0;
+        flex-shrink: 0;
+        width: 150px;
+        padding-left: 1rem;
+      }
+    }
+  }
 
-#settings select {
-  background: #999;
-  border-radius: 5px;
-  width: 100%;
-  height: 25px;
-}
+  & select {
+    background: #999;
+    border-radius: 5px;
+    width: 100%;
+    height: 25px;
+  }
 
-#settings input[type="checkbox"] {
-  vertical-align: middle;
-  width: 0;
-  height: 25px;
-  position: relative;
-}
+  & input[type="checkbox"] {
+    vertical-align: middle;
+    width: 0;
+    height: 25px;
+    position: relative;
 
-#settings input[type="checkbox"]:before {
-  content: "";
-  background: #999;
-  border-radius: 25px;
-  width: 50px;
-  height: 25px;
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+    &:before {
+      content: "";
+      background: #999;
+      border-radius: 25px;
+      width: 50px;
+      height: 25px;
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
 
-#settings input[type="checkbox"]:after {
-  content: "";
-  background: #ccc;
-  border-radius: 25px;
-  width: 25px;
-  height: 25px;
-  transition: transform .2s;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+    &:after {
+      content: "";
+      background: #ccc;
+      border-radius: 25px;
+      width: 25px;
+      height: 25px;
+      transition: transform .2s;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
 
-#settings input[type="checkbox"]:checked:after {
-  background: #fff;
-  transform: translateX(100%);
-}
+    &:checked:after {
+      background: #fff;
+      transform: translateX(100%);
+    }
 
-#settings input[type="checkbox"]:checked:before {
-  content: "";
-  background: #00baff;
-}
+    &:checked:before {
+      content: "";
+      background: #00baff;
+    }
+  }
 
-#settings .btn-group {
-  justify-content: stretch;
-  display: flex;
-}
+  & .btn-group {
+    justify-content: stretch;
+    display: flex;
 
-#settings .btn-group > * {
-  box-sizing: border-box;
-  color: #fefefe;
-  background: #999;
-  border: none;
-  border-radius: 0;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  height: 25px;
-  padding: 0;
-  display: flex;
-  overflow: hidden;
-}
+    & > * {
+      box-sizing: border-box;
+      color: #fefefe;
+      background: #999;
+      border: none;
+      border-radius: 0;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      height: 25px;
+      padding: 0;
+      display: flex;
+      overflow: hidden;
 
-#settings .btn-group > *:first-child {
-  border-radius: 10px 0 0 10px;
-}
+      &:first-child {
+        border-radius: 10px 0 0 10px;
+      }
 
-#settings .btn-group > *:last-child {
-  border-radius: 0 10px 10px 0;
-}
+      &:last-child {
+        border-radius: 0 10px 10px 0;
+      }
 
-#settings .btn-group > *.active:before {
-  content: "";
-  vertical-align: middle;
-  background: #fff;
-  width: 15px;
-  height: 15px;
-  display: inline-block;
-  -webkit-mask-image: url("check.c558835f.svg");
-  mask-image: url("check.c558835f.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-}
+      &.active:before {
+        content: "";
+        vertical-align: middle;
+        background: #fff;
+        width: 15px;
+        height: 15px;
+        display: inline-block;
+        mask-image: url("check.c558835f.svg");
+        mask-repeat: no-repeat;
+      }
 
-#settings .btn-group > *.active {
-  background: #333;
-}
+      &.active {
+        background: #333;
+      }
+    }
 
-#settings .btn-group input[type="number"] {
-  box-sizing: border-box;
-  text-align: center;
+    & input[type="number"] {
+      box-sizing: border-box;
+      text-align: center;
+    }
+  }
 }
 
 #donate {
@@ -316,14 +305,14 @@ div.copyright a {
   position: fixed;
   bottom: calc(160px + 1.5rem);
   left: 1rem;
+
+  &.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
-#donate.hide {
-  opacity: 0;
-  visibility: hidden;
-}
-
-@media screen and (max-width: 750px) {
+@media screen and (width <= 750px) {
   #donate {
     bottom: 1rem;
   }
@@ -338,33 +327,32 @@ div.copyright a {
     display: block;
     bottom: calc(1.5rem + 60px);
     overflow: hidden;
-  }
 
-  #settings.hide {
-    opacity: 0;
-    visibility: hidden;
-  }
+    &.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
 
-  #settings div.right div.row {
-    border-bottom: 1px solid #555;
-    height: auto;
-    padding: .5rem 0;
-    display: block;
-  }
+    & div.right div.row {
+      border-bottom: 1px solid #555;
+      height: auto;
+      padding: .5rem 0;
+      display: block;
 
-  #settings div.right div.row label {
-    width: 100%;
-    margin-bottom: .5rem;
-    padding-left: 0;
-    display: block;
-  }
+      & label {
+        width: 100%;
+        margin-bottom: .5rem;
+        padding-left: 0;
+        display: block;
+      }
 
-  #settings div.right div.row .icon {
-    width: 15px;
-    height: 15px;
+      & .icon {
+        width: 15px;
+        height: 15px;
+      }
+    }
   }
 }
-
 </style>
 </head>
 <body>
