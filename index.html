@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-5899C1DJM0"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.2f316c01.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.3597a0fa.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.38143b41.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.c2eb0cfb.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.482241b6.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.721e3998.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.15b26ac4.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.c70b6780.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.1c38e27c.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.778fbd46.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.09fde066.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.b27ae6bd.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.c68c989a.png">
+	<link rel="manifest" href="/assets/manifest.webmanifest">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/ms-icon-144x144.8429dbf3.png">
+	<meta name="theme-color" content="#ffffff">
+	<title>Marble Roulette</title>
+	<style lang="scss">* {
+  box-sizing: border-box;
+}
+
+.find-btn {
+  text-align: center;
+}
+
+.find-btn1 {
+  display: inline-block;
+}
+
+#btnSeletedStart, #btnNavigate {
+  color: #fff;
+  cursor: pointer;
+  background: #607d8b;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 10px 30px;
+  font-size: 16px;
+  font-weight: normal;
+  text-decoration: none;
+  display: inline-block;
+}
+
+canvas {
+  width: 70%;
+  height: 100%;
+  position: fixed;
+  inset: 0;
+}
+
+div.checklist {
+  background: #f0f8ff;
+  width: 30%;
+  height: 100%;
+  position: fixed;
+  right: 0;
+}
+
+div.btnCheckBoxStart {
+  width: 30%;
+  position: fixed;
+  bottom: 2rem;
+  right: 0;
+}
+
+div.copyright {
+  color: #fff;
+  z-index: 999;
+  font-size: 12px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+div.copyright a {
+  color: #fff;
+}
+
+#settings {
+  z-index: 999;
+  visibility: visible;
+  opacity: 1;
+  background: #666;
+  border-radius: 10px;
+  min-width: 50%;
+  padding: 10px;
+  transition: visibility, opacity 1s linear;
+  display: flex;
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+
+  &.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  & h3 {
+    color: #fefefe;
+    margin: 0;
+    padding: 0;
+    font-size: 12pt;
+  }
+
+  & textarea {
+    background: #999;
+    border: none;
+    width: 100%;
+    min-height: 5rem;
+    font-size: 14pt;
+  }
+
+  & button {
+    color: #fefefe;
+    background: #222;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: relative;
+    overflow: hidden;
+
+    &:active:after {
+      content: "";
+      background: #00000080;
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  & .icon {
+    vertical-align: middle;
+    background: currentColor;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+
+    &.play {
+      mask-image: url("play.5e380e85.svg");
+    }
+
+    &.shuffle {
+      mask-image: url("shuffle.ae708aec.svg");
+    }
+
+    &.record {
+      mask-image: url("record.4adf1f81.svg");
+    }
+
+    &.map {
+      mask-image: url("map.9561646e.svg");
+    }
+
+    &.trophy {
+      mask-image: url("trophy.861e3950.svg");
+    }
+
+    &.bomb {
+      mask-image: url("bomb.5fe30a0c.svg");
+    }
+  }
+
+  & div.left {
+    flex-grow: 1;
+    flex-shrink: 1;
+    order: 1;
+
+    & .actions {
+      text-align: right;
+    }
+  }
+
+  & div.right {
+    flex-grow: 0;
+    flex-shrink: 0;
+    order: 2;
+
+    & div.row {
+      align-items: center;
+      height: 35px;
+      display: flex;
+
+      & label {
+        color: #fff;
+        flex-grow: 0;
+        flex-shrink: 0;
+        width: 150px;
+        padding-left: 1rem;
+      }
+    }
+  }
+
+  & select {
+    background: #999;
+    border-radius: 5px;
+    width: 100%;
+    height: 25px;
+  }
+
+  & input[type="checkbox"] {
+    vertical-align: middle;
+    width: 0;
+    height: 25px;
+    position: relative;
+
+    &:before {
+      content: "";
+      background: #999;
+      border-radius: 25px;
+      width: 50px;
+      height: 25px;
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &:after {
+      content: "";
+      background: #ccc;
+      border-radius: 25px;
+      width: 25px;
+      height: 25px;
+      transition: transform .2s;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &:checked:after {
+      background: #fff;
+      transform: translateX(100%);
+    }
+
+    &:checked:before {
+      content: "";
+      background: #00baff;
+    }
+  }
+
+  & .btn-group {
+    justify-content: stretch;
+    display: flex;
+
+    & > * {
+      box-sizing: border-box;
+      color: #fefefe;
+      background: #999;
+      border: none;
+      border-radius: 0;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      height: 25px;
+      padding: 0;
+      display: flex;
+      overflow: hidden;
+
+      &:first-child {
+        border-radius: 10px 0 0 10px;
+      }
+
+      &:last-child {
+        border-radius: 0 10px 10px 0;
+      }
+
+      &.active:before {
+        content: "";
+        vertical-align: middle;
+        background: #fff;
+        width: 15px;
+        height: 15px;
+        display: inline-block;
+        mask-image: url("check.c558835f.svg");
+        mask-repeat: no-repeat;
+      }
+
+      &.active {
+        background: #333;
+      }
+    }
+
+    & input[type="number"] {
+      box-sizing: border-box;
+      text-align: center;
+    }
+  }
+}
+
+#donate {
+  z-index: 999;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility, opacity 1s linear;
+  position: fixed;
+  bottom: calc(160px + 1.5rem);
+  left: 1rem;
+
+  &.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media screen and (width <= 750px) {
+  #donate {
+    bottom: 1rem;
+  }
+
+  #settings {
+    opacity: 1;
+    visibility: visible;
+    width: calc(100% - 2rem);
+    min-width: 0;
+    max-width: 100%;
+    transition: visibility, opacity 1s linear;
+    display: block;
+    bottom: calc(1.5rem + 60px);
+    overflow: hidden;
+
+    &.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    & div.right div.row {
+      border-bottom: 1px solid #555;
+      height: auto;
+      padding: .5rem 0;
+      display: block;
+
+      & label {
+        width: 100%;
+        margin-bottom: .5rem;
+        padding-left: 0;
+        display: block;
+      }
+
+      & .icon {
+        width: 15px;
+        height: 15px;
+      }
+    }
+  }
+}
+</style>
+</head>
+<body>
+<script src="/index.b71e74eb.js" defer=""></script>
+<script type="text/javascript">window.dataLayer = window.dataLayer || [];
+function gtag() {
+    dataLayer.push(arguments);
+}
+gtag("js", new Date());
+gtag("config", "G-5899C1DJM0");
+function getNames() {
+    const value = document.querySelector("#in_names").value.trim();
+    return value.split(/[,\r\n]/g).map((v)=>v.trim()).filter((v)=>!!v);
+}
+function parseName(nameStr) {
+    const weightRegex = /(\/\d+)/;
+    const countRegex = /(\*\d+)/;
+    const hasWeight = weightRegex.test(nameStr);
+    const hasCount = countRegex.test(nameStr);
+    const name = /^\s*([^\/*]+)?/.exec(nameStr)[1];
+    const weight = hasWeight ? parseInt(weightRegex.exec(nameStr)[1].replace("/", "")) : 1;
+    const count = hasCount ? parseInt(countRegex.exec(nameStr)[1].replace("*", "")) : 1;
+    return {
+        name,
+        weight,
+        count
+    };
+}
+let selectedNames = []; // 선택된 이름들을 저장할 배열
+function updateChecklist() {
+    const checklistContainer = document.querySelector(".checklist");
+    // 기존 리스트 제거
+    checklistContainer.innerHTML = "";
+    const names = getNames();
+    names.forEach((name, index)=>{
+        const nameObj = parseName(name);
+        // 체크박스와 레이블 생성
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `person_${index + 1}`;
+        checkbox.value = nameObj.name;
+        const label = document.createElement("label");
+        label.htmlFor = `person_${index + 1}`;
+        label.textContent = nameObj.name;
+        // 체크박스 선택 시 이벤트 처리
+        checkbox.addEventListener("change", (e)=>{
+            const allCheckboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            if (checkbox.checked) {
+                const v = parseInt(`${checkbox.id}`.split("_")[1], 10);
+                winnerType = "custom";
+                console.log(v);
+                setWinnerRank(1);
+                selectedNames = [];
+                selectedNames.push(nameObj.name);
+                localStorage.setItem("select_name", selectedNames);
+                // 다른 체크박스 해제
+                allCheckboxes.forEach((cb)=>{
+                    if (cb !== checkbox) cb.checked = false;
+                });
+            } else selectedNames = selectedNames.filter((n)=>n !== nameObj.name);
+        // } else {
+        // 	// 선택이 해제된 경우, 다른 선택된 이름이 없으면 전체 이름 리스트로 설정
+        // 	const selectedNames = Array.from(checklistContainer.querySelectorAll('input:checked')).map(cb => cb.value);
+        // 	if (selectedNames.length > 0) {
+        // 		window.roullete.setMarbles(selectedNames);
+        // 	} else {
+        // 		window.roullete.setMarbles(names.map(n => parseName(n).name));
+        // 	}
+        // }
+        });
+        // checkbox.forEach((cb) => {
+        // 	if(`${checkbox.id}` !== cb) {}
+        // 	cd.checked = false;
+        // })
+        // 체크리스트에 추가
+        checklistContainer.appendChild(checkbox);
+        checklistContainer.appendChild(label);
+        checklistContainer.appendChild(document.createElement("br"));
+    });
+}
+function getReady() {
+    const names = getNames();
+    window.roullete.setMarbles(names);
+    ready = names.length > 0;
+    localStorage.setItem("mbr_names", names.join(","));
+    switch(winnerType){
+        case "first":
+            setWinnerRank(1);
+            break;
+        case "last":
+            const total = window.roullete.getCount();
+            setWinnerRank(total);
+            break;
+    }
+}
+function setWinnerRank(rank) {
+    document.querySelector("#in_winningRank").value = rank;
+    window.options.winningRank = rank - 1;
+    window.roullete.setWinningRank(window.options.winningRank);
+    if (winnerType === "first") {
+        document.querySelector(".btn-first-winner").classList.toggle("active", true);
+        document.querySelector(".btn-last-winner").classList.toggle("active", false);
+        document.querySelector("#in_winningRank").classList.toggle("active", false);
+    } else if (winnerType === "last") {
+        document.querySelector(".btn-first-winner").classList.toggle("active", false);
+        document.querySelector(".btn-last-winner").classList.toggle("active", true);
+        document.querySelector("#in_winningRank").classList.toggle("active", false);
+    } else if (winnerType === "custom") {
+        document.querySelector(".btn-first-winner").classList.toggle("active", false);
+        document.querySelector(".btn-last-winner").classList.toggle("active", false);
+        document.querySelector("#in_winningRank").classList.toggle("active", true);
+    }
+}
+let ready = false;
+let winnerType = "first";
+document.addEventListener("DOMContentLoaded", ()=>{
+    initialize();
+    const names = getNames();
+    updateChecklist(); // 이름 목록 업데이트
+    getReady();
+});
+function initialize() {
+    if (!window.roullete || !window.roullete.isReady) {
+        console.log("does not loaded yet");
+        setTimeout(initialize, 100);
+        return;
+    }
+    console.log("initializing start");
+    const savedNames = localStorage.getItem("mbr_names");
+    if (savedNames) {
+        document.querySelector("#in_names").value = savedNames;
+        updateChecklist(savedNames);
+    }
+    document.querySelector("#in_names").addEventListener("input", ()=>{
+        updateChecklist();
+        getReady();
+    });
+    document.querySelector("#in_names").addEventListener("blur", ()=>{
+        const nameSource = getNames();
+        const nameSet = new Set();
+        const nameCounts = {};
+        nameSource.forEach((nameSrc)=>{
+            const name = parseName(nameSrc);
+            const key = name.weight > 1 ? `${name.name}/${name.weight}` : name.name;
+            if (!nameSet.has(key)) {
+                nameSet.add(key);
+                nameCounts[key] = 0;
+            }
+            nameCounts[key] += name.count;
+        });
+        const result = [];
+        Object.keys(nameCounts).forEach((key)=>{
+            if (nameCounts[key] > 1) result.push(`${key}*${nameCounts[key]}`);
+            else result.push(key);
+        });
+        const oldValue = document.querySelector("#in_names").value;
+        const newValue = result.join(",");
+        if (oldValue !== newValue) {
+            document.querySelector("#in_names").value = newValue;
+            updateChecklist();
+            getReady();
+        }
+    });
+    document.querySelector("#btnShuffle").addEventListener("click", ()=>{
+        updateChecklist();
+        getReady();
+    });
+    document.querySelector("#btnStart").addEventListener("click", ()=>{
+        if (!ready) return;
+        gtag && gtag("event", "start", {
+            "event_category": "roulette",
+            "event_label": "start",
+            "value": window.roullete.getCount()
+        });
+        window.roullete.start();
+        document.querySelector("#settings").classList.add("hide");
+        document.querySelector("#donate").classList.add("hide");
+    });
+    // 페이지 전환 버튼 클릭 이벤트 처리
+    // document.querySelector('#btnNavigate').addEventListener('click', () => {
+    // 	window.location.href = '/src/roulette/roulette.html';
+    // });
+    document.querySelector("#btnSeletedStart").addEventListener("click", ()=>{
+        if (!ready) return;
+        const allCheckboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+        var checkCnt = 0;
+        allCheckboxes.forEach((cb)=>{
+            if (cb.checked === true) checkCnt = 1;
+        });
+        if (checkCnt === 0) return alert("\uCCB4\uD06C\uBC15\uC2A4\uB97C \uC120\uD0DD\uD558\uC138\uC694");
+        selectedName = localStorage.getItem("select_name");
+        const names = getNames().map((n)=>parseName(n).name); // 전체 이름 배열
+        if (selectedNames.length > 0) // 선택된 이름을 먼저 추가하고 나머지 이름을 추가
+        window.roullete.setMarbles([
+            ...names
+        ], selectedName);
+        else // 선택된 이름이 없으면 전체 이름을 설정
+        window.roullete.setMarbles(names);
+        gtag && gtag("event", "start", {
+            "event_category": "roulette",
+            "event_label": "start",
+            "value": 1
+        });
+        window.roullete.start();
+        document.querySelector("#settings").classList.add("hide");
+        document.querySelector("#donate").classList.add("hide");
+    });
+    document.querySelector("#chkAutoRecording").addEventListener("change", (e)=>{
+        window.options.autoRecording = e.target.matches(":checked");
+        window.roullete.setAutoRecording(window.options.autoRecording);
+    });
+    document.querySelector("#chkSkill").addEventListener("change", (e)=>{
+        window.options.useSkills = e.target.matches(":checked");
+        window.roullete.setWinningRank(window.options.winningRank);
+    });
+    document.querySelector("#in_winningRank").addEventListener("change", (e)=>{
+        const v = parseInt(e.target.value, 10);
+        winnerType = "custom";
+        setWinnerRank(isNaN(v) ? 0 : v);
+    });
+    document.querySelector(".btn-last-winner").addEventListener("click", ()=>{
+        const total = window.roullete.getCount();
+        winnerType = "last";
+        setWinnerRank(total);
+    });
+    document.querySelector(".btn-first-winner").addEventListener("click", ()=>{
+        winnerType = "first";
+        setWinnerRank(1);
+    });
+    document.querySelector("#btnShake").addEventListener("click", ()=>{
+        window.roullete.shake();
+        gtag("event", "shake", {
+            "event_category": "roulette",
+            "event_label": "shake",
+            "value": 1
+        });
+    });
+    window.roullete.addEventListener("goal", ()=>{
+        ready = false;
+        setTimeout(()=>{
+            document.querySelector("#settings").classList.remove("hide");
+            document.querySelector("#donate").classList.remove("hide");
+        }, 3000);
+    });
+    window.roullete.addEventListener("shakeAvailableChanged", (e)=>{
+        document.querySelector("#inGame").classList.toggle("hide", !e.detail);
+    });
+    document.querySelector("#btnShuffle").click();
+    const maps = window.roullete.getMaps();
+    const mapSelector = document.querySelector("#sltMap");
+    maps.forEach((map)=>{
+        const option = document.createElement("option");
+        option.value = map.index;
+        option.innerHTML = map.title;
+        option.setAttribute("data-trans", "");
+        window.translateElement(option);
+        mapSelector.append(option);
+    });
+    mapSelector.addEventListener("change", (e)=>{
+        const index = e.target.value;
+        window.roullete.setMap(index);
+    });
+    const checkDonateButtonLoaded = ()=>{
+        const btn = document.querySelector("span.bmc-btn-text");
+        if (!btn) setTimeout(checkDonateButtonLoaded, 100);
+        else {
+            console.log("donation button has been loaded");
+            btn.setAttribute("data-trans", "");
+            window.translateElement(btn);
+        }
+    };
+    setTimeout(checkDonateButtonLoaded, 100);
+}
+
+</script>
+<div id="settings" class="settings">
+	<div class="right">
+		<div class="row">
+			<label>
+				<i class="icon map"></i>
+				<span data-trans="">Map</span>
+			</label>
+			<select id="sltMap"></select>
+		</div>
+		<div class="row">
+			<label>
+				<i class="icon record"></i>
+				<span data-trans="">Recording</span>
+			</label>
+			<input type="checkbox" id="chkAutoRecording">
+		</div>
+		<div class="row">
+			<label>
+				<i class="icon trophy"></i>
+				<span data-trans="">The winner is</span>
+			</label>
+			<div class="btn-group">
+				<button class="btn-winner btn-first-winner active" data-trans="">First</button>
+				<button class="btn-winner btn-last-winner" data-trans="">Last</button>
+				<input type="number" id="in_winningRank" value="1" min="1">
+			</div>
+		</div>
+		<div class="row">
+			<label>
+				<i class="icon bomb"></i>
+				<span data-trans="">Using skills</span>
+			</label>
+			<input type="checkbox" id="chkSkill" checked="">
+		</div>
+	</div>
+	<div class="left">
+		<h3 data-trans="">Enter names below</h3>
+		<textarea id="in_names" placeholder="Input names separated by commas or line feed here" data-trans="placeholder">짱구*5, 짱아*10, 봉미선*3</textarea>
+		<div class="actions">
+			<button id="btnShuffle">
+				<i class="icon shuffle"></i>
+				<span data-trans="">Shuffle</span>
+			</button>
+			<button id="btnStart">
+				<i class="icon play"></i>
+				<span data-trans="">Start</span>
+			</button>
+		</div>
+	</div>
+</div>
+<div class="checklist">
+	<h3 data-trans="">Enter names below</h3>
+</div>
+<div class="btnCheckBoxStart find-btn">
+	<button id="btnSeletedStart" class="find-btn1">룰렛하기</button>
+	<!-- btnNavigate -->
+	<a href="/rulret/roulette.html" id="btnNavigate" class="find-btn1">룰렛전환</a>
+</div>
+
+<div id="inGame" class="settings hide">
+	<button id="btnShake" data-trans="">Shake!</button>
+</div>
+<div class="copyright">&copy; 2024.<a href="https://lazygyu.net" target="_blank">lazygyu</a></div>
+</body>
+</html>
