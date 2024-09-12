@@ -13,9 +13,12 @@
     "typescript": "^5.4.3"
   },
   "scripts": {
-    "homepage": "https://hanyoungwoo.github.io/pages",
-    "dev": "parcel index.html",
-    "build": "parcel build index.html --public-url /roulette/ --no-cache" 
+    "start": "parcel ./index.html",
+    "prebuild-dev": "shx rm -rf dist/*",
+    "build-dev": "parcel build ./index.html --no-optimize --public-url ./",
+    "prebuild": "shx rm -rf dist/*",
+    "build": "parcel build ./index.html --public-url ./",
+    "push-gh-pages": "push-dir --dir=dist --branch=gh-pages --cleanup --verbose"
   },
   "dependencies": {
     "box2d-wasm": "^7.0.0",
