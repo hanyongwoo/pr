@@ -34,7 +34,7 @@ jobs:
           git config --global user.email "your.email@example.com"
           git add .
           git commit -m "Deploying to gh-pages"
-          git push https://hanyongwoo:${{ secrets.TOKEN }}@github.com/hanyongwoo/pr.git gh-pages
+          git push https://hanyongwoo:${{ secrets.TOKEN }}@github.com/hanyongwoo/pr.git main
       - name: deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
