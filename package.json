@@ -15,7 +15,7 @@
   "scripts": {
     "homepage": "https://hanyoungwoo.github.io/pages",
     "dev": "parcel index.html",
-    "build": "parcel build index.html --public-url /roulette/"
+    "build": "parcel build index.html --public-url /roulette/ --no-cache" 
   },
   "dependencies": {
     "box2d-wasm": "^7.0.0",
