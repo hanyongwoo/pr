@@ -13,7 +13,7 @@
     "typescript": "^5.4.3"
   },
   "scripts": {
-    "homepage": "https://nasms88.github.io/pages/",
+    "homepage": "https://hanyoungwoo.github.io/pages",
     "dev": "parcel index.html",
     "build": "parcel build index.html --public-url /roulette/"
   },
