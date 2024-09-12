@@ -28,12 +28,48 @@
 			box-sizing: border-box;
 		}
 
+		.find-btn {
+			text-align: center;
+		}
+		.find-btn1 {
+			display: inline-block
+		}
+
+		#btnSeletedStart, #btnNavigate {
+			background: #607D8B;
+            border: 1px solid white;
+            color: white;
+            padding: 10px 30px;
+            text-decoration: none;  /* 밑줄 제거 */
+            font-weight: normal;    /* 볼드 제거 */
+            border-radius: 5px;     /* 모서리 둥글게 */
+            cursor: pointer;        /* 커서 모양 변경 */
+            display: inline-block;  /* 블록처럼 보이게 */
+            font-size: 16px;       /* 폰트 크기 */
+		}
+
 		canvas {
 			position: fixed;
 			inset: 0;
-			width: 100%;
+			width: 70%;
 			height: 100%;
 		}
+
+		div.checklist {			
+			right: 0;
+			width: 30%;
+			height: 100%;
+			position: fixed;
+			background: aliceblue;
+		}
+		
+		div.btnCheckBoxStart {			
+			position: fixed;
+			right: 0;
+			bottom: 2rem;
+			width: 30%;
+		}
+
 
 		div.copyright {
 			position: fixed;
@@ -207,11 +243,9 @@
 				justify-content: stretch;
 				&>* {
 					box-sizing: border-box;
-					flex-grow: 0;
-					flex-shrink: 0;
+					flex: 1;
 					overflow: hidden;
 					height: 25px;
-					width: 33%;
 					border-radius: 0;
 					background: #999;
 					border: none;
@@ -331,6 +365,76 @@
 		};
 	}
 
+	let selectedNames = []; // 선택된 이름들을 저장할 배열
+
+	function updateChecklist() {
+		const checklistContainer = document.querySelector('.checklist');
+		// 기존 리스트 제거
+		checklistContainer.innerHTML = '';
+
+		const names = getNames();
+		names.forEach((name, index) => {
+			const nameObj = parseName(name);
+
+			// 체크박스와 레이블 생성
+			const checkbox = document.createElement('input');
+			checkbox.type = 'checkbox';
+			checkbox.id = `person_${index+1}`;
+			checkbox.value = nameObj.name;
+
+			const label = document.createElement('label');
+			label.htmlFor = `person_${index+1}`;
+			label.textContent = nameObj.name;
+
+			// 체크박스 선택 시 이벤트 처리
+			checkbox.addEventListener('change', (e) => {
+
+				const allCheckboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+
+				if (checkbox.checked) {
+					const v = parseInt(`${checkbox.id}`.split('_')[1], 10);
+					winnerType = 'custom';
+					console.log(v);
+					setWinnerRank(1);
+					selectedNames = [];
+					selectedNames.push(nameObj.name);
+					localStorage.setItem('select_name',selectedNames);
+
+					// 다른 체크박스 해제
+					allCheckboxes.forEach((cb) => {
+						if(cb !== checkbox) {
+							cb.checked = false;
+						}
+					});
+				} else {
+					selectedNames = selectedNames.filter(n => n !== nameObj.name);
+				}
+				// } else {
+				// 	// 선택이 해제된 경우, 다른 선택된 이름이 없으면 전체 이름 리스트로 설정
+				// 	const selectedNames = Array.from(checklistContainer.querySelectorAll('input:checked')).map(cb => cb.value);
+				// 	if (selectedNames.length > 0) {
+				// 		window.roullete.setMarbles(selectedNames);
+				// 	} else {
+				// 		window.roullete.setMarbles(names.map(n => parseName(n).name));
+				// 	}
+				// }
+				
+			});
+
+			// checkbox.forEach((cb) => {
+			// 	if(`${checkbox.id}` !== cb) {}
+			// 	cd.checked = false;
+			// })
+
+			// 체크리스트에 추가
+			checklistContainer.appendChild(checkbox);
+			checklistContainer.appendChild(label);
+			checklistContainer.appendChild(document.createElement('br'));
+		});
+	}
+	
+
+
 	function getReady() {
 		const names = getNames();
 		window.roullete.setMarbles(names);
@@ -367,13 +471,20 @@
 		}
 	}
 
+	
 
 	let ready = false;
 	let winnerType = 'first';
 
 	document.addEventListener('DOMContentLoaded', () => {
 		initialize();
+		const names = getNames();
+		updateChecklist(); // 이름 목록 업데이트
+		getReady();
+
 	});
+
+	
 	function initialize() {
 		if (!window.roullete || !window.roullete.isReady) {
 			console.log('does not loaded yet');
@@ -385,10 +496,13 @@
 		const savedNames = localStorage.getItem('mbr_names');
 		if (savedNames) {
 			document.querySelector('#in_names').value = savedNames;
+			updateChecklist(savedNames);
 		}
 		document.querySelector('#in_names').addEventListener('input', () => {
+			updateChecklist();
 			getReady();
 		});
+		
 
 		document.querySelector('#in_names').addEventListener('blur', () => {
 			const nameSource = getNames();
@@ -417,11 +531,13 @@
 
 			if (oldValue !== newValue) {
 				document.querySelector('#in_names').value = newValue;
+				updateChecklist();
 				getReady();
 			}
 		});
 
 		document.querySelector('#btnShuffle').addEventListener('click', () => {
+			updateChecklist();
 			getReady();
 		});
 
@@ -431,6 +547,46 @@
 				'event_category': 'roulette',
 				'event_label': 'start',
 				'value': window.roullete.getCount(),
+			});
+			window.roullete.start();
+			document.querySelector('#settings').classList.add('hide');
+			document.querySelector('#donate').classList.add('hide');
+		});
+
+		// 페이지 전환 버튼 클릭 이벤트 처리
+		// document.querySelector('#btnNavigate').addEventListener('click', () => {
+		// 	window.location.href = '/src/roulette/roulette.html';
+		// });
+		
+
+		document.querySelector('#btnSeletedStart').addEventListener('click', () => {
+			if (!ready) return;
+
+			const allCheckboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+			var checkCnt = 0;
+			allCheckboxes.forEach((cb) => {
+				if(cb.checked === true) {
+					checkCnt = 1;
+				}
+			})
+
+			if(checkCnt === 0) return alert('체크박스를 선택하세요');
+
+			selectedName = localStorage.getItem('select_name');
+			const names = getNames().map(n => parseName(n).name); // 전체 이름 배열
+
+			if (selectedNames.length > 0) {
+				// 선택된 이름을 먼저 추가하고 나머지 이름을 추가
+				window.roullete.setMarbles([...names], selectedName);
+			} else {
+				// 선택된 이름이 없으면 전체 이름을 설정
+				window.roullete.setMarbles(names);
+			}
+
+			gtag && gtag('event', 'start', {
+				'event_category': 'roulette',
+				'event_label': 'start',
+				'value': 1,
 			});
 			window.roullete.start();
 			document.querySelector('#settings').classList.add('hide');
@@ -452,6 +608,7 @@
 			winnerType = 'custom';
 			setWinnerRank(isNaN(v) ? 0 : v);
 		});
+
 
 		document.querySelector('.btn-last-winner').addEventListener('click', () => {
 			const total = window.roullete.getCount();
@@ -484,7 +641,7 @@
 		});
 
 		document.querySelector('#btnShuffle').click();
-
+		
 		const maps = window.roullete.getMaps();
 		const mapSelector = document.querySelector('#sltMap');
 		maps.forEach((map) => {
@@ -563,10 +720,14 @@
 		</div>
 	</div>
 </div>
-<div id="donate">
-	<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
-			data-name="bmc-button" data-slug="lazygyu" data-color="#FFDD00" data-emoji=""
-			data-font="Comic" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
+<div class="checklist">
+	<h3 data-trans>Enter names below</h3>
+</div>
+<div class="btnCheckBoxStart find-btn">
+	<button id="btnSeletedStart" class="find-btn1">룰렛하기</button>
+	<!-- btnNavigate -->
+	<a href="rulret/roulette.html" id='btnNavigate' class="find-btn1">룰렛전환</a>
+</div>
 </div>
 <div id="inGame" class="settings hide">
 	<button id="btnShake" data-trans>Shake!</button>

@@ -20,6 +20,8 @@ export interface IPhysics {
 
     getMarblePosition(id: number): { x: any; y: any };
 
+    setMarblePosition(id: number, x: number, y: number): void; // 추가: 공 위치 설정 메서드
+
     getWheels(): WheelState[];
 
     getBoxes(): BoxState[];

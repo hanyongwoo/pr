@@ -6,6 +6,13 @@ import { WheelState } from './types/WheelState';
 import Box2DFactory from 'box2d-wasm';
 
 export class Box2dPhysics implements IPhysics {
+    setMarblePosition(id: number, x: number, y: number): void {
+        const marble = this.marbleMap[id];
+		if (marble) {
+			marble.SetTransform(new this.Box2D.b2Vec2(x, y), marble.GetAngle());
+		}
+    }
+    private goalY: number; // 목표 Y 좌표를 저장하는 변수
     private Box2D!: typeof Box2D & EmscriptenModule;
     private gravity!: Box2D.b2Vec2;
     private world!: Box2D.b2World;

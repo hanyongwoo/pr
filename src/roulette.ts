@@ -51,6 +51,7 @@ export class Roulette extends EventTarget {
     private physics!: IPhysics;
 
     private _isReady: boolean = false;
+    
     get isReady() {
         return this._isReady;
     }
@@ -149,7 +150,12 @@ export class Roulette extends EventTarget {
                 setTimeout(() => {
                     this.physics.removeMarble(marble.id);
                 }, 500);
-            }
+            } 
+            // else if (marble.isSelected && marble.y > this._stage.goalY * 0.9) {
+            //     // 선택된 공이 목표 지점 근처에 도달했을 때 강제로 위치 조정
+            //     const newPosY = this._stage.goalY - 1;
+            //     this.physics.setMarblePosition(marble.id, marble.x, newPosY);
+            // }
         }
 
         const targetIndex = this._winnerRank - this._winners.length;
@@ -288,43 +294,65 @@ export class Roulette extends EventTarget {
         this._autoRecording = value;
     }
 
-    public setMarbles(names: string[]) {
+    public setMarbles(names: string[], selectedNames: string = '') {
         this.reset();
-        const arr = names.slice();
+        const allMembers = names.slice().map(nameString => parseName(nameString)).filter(member => !!member);
+
+        // Separate members into selected and non-selected groups
+        const selectedMembers = allMembers.filter(member => selectedNames.includes(member.name));
+        const nonSelectedMembers = allMembers.filter(member => !selectedNames.includes(member.name));
 
 
+     // 설정할 시작점
+        //const startX = 0;  // 예시로 (0, 0) 위치를 사용
+        //const startY = 0;
+
+
+        // Calculate weight for non-selected users
         let maxWeight = -Infinity;
         let minWeight = Infinity;
-
-        const members = arr.map(nameString => {
-            const result =  parseName(nameString);
-            if (!result) return null;
-            const { name, weight, count } = result;
-            if (weight > maxWeight) maxWeight = weight;
-            if (weight < minWeight) minWeight = weight;
-            return {name, weight, count};
-        }).filter(member => !!member);
+        nonSelectedMembers.forEach(member => {
+            if (member.weight > maxWeight) maxWeight = member.weight;
+            if (member.weight < minWeight) minWeight = member.weight;
+        });
 
         const gap = maxWeight - minWeight;
 
-        let totalCount = 0;
-        members.forEach(member => {
+        nonSelectedMembers.forEach(member => {
             if (member) {
                 member.weight = 0.1 + (gap ? (member.weight - minWeight) / gap : 0);
-                totalCount += member.count;
             }
         });
 
-        const orders = Array(totalCount).fill(0).map((_, i) => i).sort(() => Math.random() - 0.5);
-        members.forEach((member) => {
+        // Add remaining users with their calculated weights
+        const orders = Array(this._marbles.length + nonSelectedMembers.length + selectedMembers.length).fill(0).map((_, i) => i).sort(() => Math.random() - 0.5);
+        nonSelectedMembers.forEach((member) => {
             if (member) {
                 for (let j = 0; j < member.count; j++) {
                     const order = orders.pop() || 0;
-                    this._marbles.push(new Marble(this.physics, order, totalCount, member.name, member.weight));
+                    const marble = new Marble(this.physics, order, this._marbles.length + member.count, member.name, member.weight, false); // isSelected to false
+				    this.physics.createMarble(marble.id, marble.position.x, marble.position.y);  // 동일한 시작점으로 생성
+                    this._marbles.push(marble); // isSelected to false
                 }
             }
         });
-        this._totalMarbleCount = totalCount;
+
+    
+         // Add selected users as winning marbles first (with high weight)
+         selectedMembers.forEach(member => {
+            for (let j = 0; j < member.count; j++) {
+                //const x = centerX;
+                //const y = centerY - j * offsetY;
+                //this._marbles.unshift(new Marble(this.physics, 0, this._marbles.length + member.count, member.name, 1.2, true)); // Set weight to 2 (highest priority) and isSelected to true
+                const order = orders.pop() || 0;
+                const marble = new Marble(this.physics, order, this._marbles.length + member.count, member.name, 0.1, true);
+                this.physics.createMarble(marble.id, marble.position.x, marble.position.y);  // 동일한 시작점으로 생성
+                this._marbles.unshift(marble);
+                //this.physics.createMarble(marble.id, x, y);
+            }
+        });
+
+        this._totalMarbleCount = this._marbles.length;
     }
 
     private _clearMap() {

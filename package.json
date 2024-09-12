@@ -13,10 +13,12 @@
     "typescript": "^5.4.3"
   },
   "scripts": {
+    "homepage": "https://nasms88.github.io/pages/",
     "dev": "parcel index.html",
     "build": "parcel build index.html --public-url /roulette/"
   },
   "dependencies": {
-    "box2d-wasm": "^7.0.0"
+    "box2d-wasm": "^7.0.0",
+    "gh-pages": "^6.1.1"
   }
 }

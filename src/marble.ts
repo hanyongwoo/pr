@@ -15,14 +15,18 @@ export class Marble {
     weight: number = 1;
     skill: Skills = Skills.None;
     isActive: boolean = false;
+    isSelected: boolean = false;
+    private readonly speedMultiplier = 0.1; // 속도 배율
+
 
     private _skillRate = 0.0005;
     private _coolTime = 5000;
     private _maxCoolTime = 5000;
     private _stuckTime = 0;
-    private lastPosition: VectorLike = {x: 0, y: 0};
-
+    private lastPosition: VectorLike = {x: 0, y: 0}; 
     private physics: IPhysics;
+    private velocity: { x: number; y: number } = { x: 0, y: 0 };
+    private acceleration: number = 0.0000039; // 가속도 값 설정
 
     id: number;
 
@@ -46,7 +50,7 @@ export class Marble {
         this.position.y = v;
     }
 
-    constructor(physics: IPhysics, order: number, max: number, name?: string, weight: number = 1) {
+    constructor(physics: IPhysics, order: number, max: number, name?: string, weight: number = 1, isSelected: boolean = false) {
         this.name = name || `M${order}`;
         this.weight = weight;
         this.physics = physics;
@@ -61,11 +65,15 @@ export class Marble {
         this.hue = 360 / max * order;
         this.color = `hsl(${this.hue} 100% 70%)`;
         this.id = order;
+        this.isSelected = isSelected;
 
         physics.createMarble(order, 10.25 + ((order % 10) * 0.6), maxLine - line + lineDelta);
     }
 
     update(deltaTime: number) {
+
+        const pos = this.physics.getMarblePosition(this.id);
+
         if (this.isActive && Vector.lenSq(Vector.sub(this.lastPosition, this.position)) < 0.00001) {
             this._stuckTime += deltaTime;
 
@@ -85,6 +93,12 @@ export class Marble {
         if (!this.isActive) return;
         if (options.useSkills) {
             this._updateSkillInformation(deltaTime);
+        }
+        // 선택된 공이 목표에 가까워졌을 때만 추가 속도 부여
+        if (this.isSelected) {
+            const pos = this.physics.getMarblePosition(this.id);
+            this.velocity.y += this.acceleration * deltaTime; // 가속도를 적용하여 속도 증가
+            this.physics.setMarblePosition(this.id, pos.x, pos.y + this.velocity.y); // 공의 새로운 위치 설정
         }
     }
 
