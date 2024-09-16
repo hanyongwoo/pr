@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .login-container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 95%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            border: none;
+            color: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #4cae4c;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>로그인</h2>
+    <input type="text" id="username" placeholder="사용자 이름" required>
+    <input type="password" id="password" placeholder="비밀번호" required>
+    <!-- <button onclick=logins()>로그인</button> -->
+    <button id="loginButton">로그인</button>
+    <div class="error" id="error-message"></div>
+</div>
+
+<script type="module">
+
+    import users from "./users.js";
+
+    document.getElementById('loginButton').addEventListener('click', logins); // 버튼 클릭 이벤트 추가
+
+    function logins() {
+      
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('error-message');
+
+      if (users[username] && users[username] === password) {
+          errorMessage.textContent = '';
+          localStorage.setItem('loggedIn', 'true'); // 로그인 상태 저장
+          window.location.href = 'index.html'; // 리디렉션
+      } else {
+          errorMessage.textContent = '사용자 이름이나 비밀번호가 잘못되었습니다.';
+      }
+  };
+</script>
+
+
+</body>
+</html>

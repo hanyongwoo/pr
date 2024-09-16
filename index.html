@@ -338,6 +338,13 @@
 	</style>
 </head>
 <body>
+<script>
+	// 로그인 상태 체크
+	if (!localStorage.getItem('loggedIn')) {
+		// 로그인하지 않은 경우 login.html로 리디렉션
+		window.location.href = 'login.html';
+	}
+</script>
 <script type="module" src="./src/index.ts"></script>
 <script type="text/javascript">
 	window.dataLayer = window.dataLayer || [];
