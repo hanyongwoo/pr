@@ -1,0 +1,1 @@
+{"mappings":"","sources":["dist/users.js"],"sourcesContent":["export default \n{\n    users:{\n        1: \"1\",\n        admin: \"admin\"\n    }\n}"],"names":[],"version":3,"file":"login.bc3bb3c4.js.map"}
