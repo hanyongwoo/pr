@@ -73,7 +73,7 @@
 
       if (users[username] && users[username] === password) {
           errorMessage.textContent = '';
-          //localStorage.setItem('loggedIn', 'true'); // 로그인 상태 저장
+          localStorage.setItem('loggedIn', 'true'); // 로그인 상태 저장
           window.location.href = 'index.html'; // 리디렉션
       } else {
           errorMessage.textContent = '사용자 이름이나 비밀번호가 잘못되었습니다.';
