@@ -59,20 +59,20 @@
 		if (!localStorage.getItem('loggedIn')) {
 			// 로그인하지 않은 경우 login.html로 리디렉션
 			window.location.href = 'login.html';
-		}
+		} else {
+			const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+			if (data) {
+				const currentTime = Date.now();
+				const age = currentTime - data.timestamp;
 
-		const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
-		if (data) {
-			const currentTime = Date.now();
-			const age = currentTime - data.timestamp;
-
-			if (age > EXPIRATION_TIME) {
-				// 시간이 지나면 데이터 삭제
-				localStorage.removeItem(STORAGE_KEY);
-				window.location.href = 'login.html';
-				//alert('저장된 데이터가 만료되어 삭제되었습니다.');
-			} else {
-				//alert('저장된 데이터: ' + data.value);
+				if (age > EXPIRATION_TIME) {
+					// 시간이 지나면 데이터 삭제
+					localStorage.removeItem(STORAGE_KEY);
+					window.location.href = 'login.html';
+					//alert('저장된 데이터가 만료되어 삭제되었습니다.');
+				} else {
+					//alert('저장된 데이터: ' + data.value);
+				}
 			}
 		}
 	</script>
