@@ -72,17 +72,9 @@
 
       if (users[username] && users[username] === password) {
 
-          const STORAGE_KEY = 'loggedIn';
-
           errorMessage.textContent = '';
           localStorage.setItem('loggedIn', 'true'); // 로그인 상태 저장
           window.location.href = 'index.html'; // 리디렉션
-
-        //   const data = {
-        //         value: 'true',
-        //         timestamp: Date.now() // 현재 시간 저장
-        //     };
-        //     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 
       } else {
           errorMessage.textContent = '사용자 이름이나 비밀번호가 잘못되었습니다.';
