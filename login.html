@@ -64,6 +64,21 @@
 
     document.getElementById('loginButton').addEventListener('click', logins); // 버튼 클릭 이벤트 추가
 
+    function setCookie(name, value) {
+        document.cookie = name + "=" + (value || "") + "; path=/"; // 세션 쿠키를 생성합니다.
+    }
+
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
     function logins() {
       
       const username = document.getElementById('username').value;
@@ -73,7 +88,7 @@
       if (users[username] && users[username] === password) {
 
           errorMessage.textContent = '';
-          localStorage.setItem('loggedIn', 'true'); // 로그인 상태 저장
+          setCookie('loggedIn', 'true'); // 로그인 상태 쿠키 설정 (세션 쿠키)
           window.location.href = 'index.html'; // 리디렉션
 
       } else {

@@ -53,9 +53,19 @@
 </head>
 <body>
 	<script>
+		function getCookie(name) {
+			const nameEQ = name + "=";
+			const ca = document.cookie.split(';');
+			for(let i = 0; i < ca.length; i++) {
+				let c = ca[i];
+				while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+				if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+			}
+			return null;
+		}
+
 		// 로그인 상태 체크
-		if (!localStorage.getItem('loggedIn')) {
-			// 로그인하지 않은 경우 login.html로 리디렉션
+		if (!getCookie('loggedIn')) {
 			window.location.href = 'login.html';
 		}
 	</script>

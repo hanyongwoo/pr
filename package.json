@@ -14,7 +14,7 @@
   },
   "scripts": {
     "homepage": "https://hanyoungwoo.github.io/pr",
-    "dev": "parcel login.html",
+    "dev": "parcel login.html index.html",
     "build": "parcel build login.html index.html --public-url /roulette/",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
