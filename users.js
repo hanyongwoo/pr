@@ -1,6 +1,6 @@
 // users.js
 const users = {
-    "1": "1",
+    "boss": "010203",
     "admin": "adminPassword"
 };
 
